@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jesse | Transportation Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#1C1F22;
+    --asphalt-2:#26292D;
+    --concrete:#E9E7E0;
+    --concrete-2:#D8D5CC;
+    --signal:#D7E100;
+    --route-blue:#1D4E89;
+    --white:#F5F5F0;
+    --ink:#1C1F22;
+    --line:rgba(28,31,34,0.14);
+    --line-dark:rgba(245,245,240,0.16);
+    --radius:2px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--concrete);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{font-family:'IBM Plex Mono', monospace; letter-spacing:0.02em;}
+  h1,h2,h3{font-family:'Archivo', sans-serif; font-weight:800; letter-spacing:-0.01em;}
+
+  a{color:inherit;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:var(--asphalt);
+    border-bottom:3px solid var(--signal);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  nav .brand{
+    font-family:'Archivo', sans-serif; font-weight:800; color:var(--white);
+    font-size:15px; letter-spacing:0.04em; text-transform:uppercase;
+  }
+  nav .brand span{color:var(--signal);}
+  nav ul{list-style:none; display:flex; gap:28px;}
+  nav a{
+    color:var(--concrete-2); text-decoration:none; font-size:13px;
+    font-weight:600; text-transform:uppercase; letter-spacing:0.06em;
+    font-family:'IBM Plex Mono', monospace;
+    border-bottom:2px solid transparent;
+    padding-bottom:4px;
+    transition:color .15s, border-color .15s;
+  }
+  nav a:hover, nav a:focus-visible{color:var(--signal); border-color:var(--signal); outline:none;}
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    background:var(--asphalt);
+    color:var(--white);
+    padding:96px 0 88px;
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid var(--line-dark);
+  }
+  header.hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(90deg, transparent, transparent 78px, rgba(245,245,240,0.035) 78px, rgba(245,245,240,0.035) 80px);
+    pointer-events:none;
+  }
+  .sign{
+    display:inline-flex; align-items:center; gap:10px;
+    background:var(--route-blue);
+    color:var(--white);
+    padding:8px 16px;
+    border-radius:var(--radius);
+    border:2px solid var(--white);
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:600; font-size:13px; letter-spacing:0.08em;
+    text-transform:uppercase;
+    margin-bottom:28px;
+  }
+  .sign .dot{width:7px; height:7px; background:var(--signal); border-radius:50%; flex-shrink:0;}
+  h1.name{
+    font-size:clamp(40px, 6.4vw, 76px);
+    line-height:0.98;
+    color:var(--white);
+    max-width:11ch;
+  }
+  .hero-role{
+    margin-top:22px;
+    font-size:clamp(17px, 2vw, 21px);
+    color:var(--concrete-2);
+    max-width:46ch;
+    font-weight:400;
+  }
+  .hero-role strong{color:var(--signal); font-weight:600;}
+  .hero-meta{
+    margin-top:36px;
+    display:flex; flex-wrap:wrap; gap:14px;
+  }
+  .badge{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; font-weight:600; letter-spacing:0.03em;
+    color:var(--asphalt);
+    background:var(--signal);
+    padding:7px 12px;
+    border-radius:var(--radius);
+  }
+  .badge.alt{background:transparent; color:var(--white); border:1px solid var(--line-dark);}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:80px 0;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px; font-weight:600; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--route-blue);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:14px;
+  }
+  .eyebrow::before{content:""; width:22px; height:2px; background:var(--signal);}
+  h2.title{font-size:clamp(26px,3.4vw,36px); margin-bottom:22px; max-width:20ch;}
+  p.lede{font-size:16.5px; max-width:64ch; color:#3A3D40;}
+
+  /* ---------- ABOUT ---------- */
+  #about{border-bottom:1px solid var(--line);}
+  .about-grid{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:56px; align-items:start;
+  }
+  .about-grid p{margin-bottom:16px; color:#33363A; font-size:15.5px; max-width:60ch;}
+  .stat-col{
+    display:grid; grid-template-columns:1fr 1fr; gap:18px;
+  }
+  .stat{
+    border:1px solid var(--line);
+    background:var(--white);
+    padding:18px 16px;
+    border-left:3px solid var(--route-blue);
+  }
+  .stat .num{font-family:'Archivo',sans-serif; font-weight:800; font-size:26px;}
+  .stat .lab{font-family:'IBM Plex Mono', monospace; font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em; color:#6B6E71; margin-top:4px;}
+
+  /* ---------- ROUTE / JOURNEY ---------- */
+  #route{background:var(--asphalt); color:var(--white);}
+  #route .eyebrow{color:var(--signal);}
+  #route .eyebrow::before{background:var(--white);}
+  #route h2.title{color:var(--white);}
+  #route p.lede{color:var(--concrete-2);}
+
+  .path{
+    margin-top:56px;
+    position:relative;
+  }
+  .path::before{
+    content:"";
+    position:absolute;
+    left:15px; top:8px; bottom:8px;
+    width:3px;
+    background:repeating-linear-gradient(180deg, var(--signal) 0 14px, transparent 14px 24px);
+  }
+  .stop{
+    position:relative;
+    padding:0 0 44px 52px;
+  }
+  .stop:last-child{padding-bottom:0;}
+  .stop::before{
+    content:"";
+    position:absolute; left:5px; top:2px;
+    width:23px; height:23px;
+    border-radius:50%;
+    background:var(--asphalt);
+    border:3px solid var(--signal);
+  }
+  .stop .yr{
+    font-family:'IBM Plex Mono', monospace; font-size:12.5px; color:var(--signal);
+    font-weight:600; letter-spacing:0.05em; margin-bottom:6px;
+  }
+  .stop h3{font-size:19px; color:var(--white); margin-bottom:6px;}
+  .stop p{color:var(--concrete-2); font-size:14.5px; max-width:56ch;}
+
+  /* ---------- RESEARCH ---------- */
+  #research{border-bottom:1px solid var(--line);}
+  .research-card{
+    background:var(--white);
+    border:1px solid var(--line);
+    padding:32px;
+    display:grid; grid-template-columns:1fr 1fr; gap:32px;
+  }
+  .research-card h3{font-size:20px; margin-bottom:12px; max-width:26ch;}
+  .research-card p{font-size:14.5px; color:#3A3D40; margin-bottom:12px;}
+  .findings{list-style:none;}
+  .findings li{
+    font-size:14px; padding:10px 0 10px 22px; position:relative;
+    border-top:1px solid var(--line); color:#33363A;
+  }
+  .findings li:first-child{border-top:none;}
+  .findings li::before{
+    content:"→"; position:absolute; left:0; color:var(--route-blue); font-weight:700;
+  }
+
+  /* ---------- SKILLS ---------- */
+  #skills{background:var(--concrete-2);}
+  .skill-grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    margin-top:12px;
+  }
+  .skill-cell{
+    background:var(--concrete-2);
+    padding:26px 24px;
+  }
+  .skill-cell .tag{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; text-transform:uppercase;
+    letter-spacing:0.06em; color:var(--route-blue); font-weight:600; margin-bottom:10px; display:block;
+  }
+  .skill-cell ul{list-style:none;}
+  .skill-cell li{font-size:14px; padding:4px 0; color:#2C2F32;}
+
+  /* ---------- CONTACT ---------- */
+  #contact{
+    padding:88px 0 96px;
+  }
+  .contact-panel{
+    background:var(--route-blue);
+    color:var(--white);
+    padding:52px 44px;
+    border-radius:var(--radius);
+    display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:28px;
+  }
+  .contact-panel h2{font-size:clamp(24px,3vw,32px); color:var(--white); max-width:16ch;}
+  .contact-links{display:flex; flex-direction:column; gap:10px;}
+  .contact-links a{
+    font-family:'IBM Plex Mono', monospace; font-size:14px; text-decoration:none;
+    border-bottom:1px solid rgba(245,245,240,0.35); padding-bottom:2px; width:fit-content;
+  }
+  .contact-links a:hover{border-color:var(--signal); color:var(--signal);}
+
+  footer{
+    background:var(--asphalt); color:var(--concrete-2);
+    padding:22px 0; text-align:center;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.04em;
+  }
+
+  @media (max-width:760px){
+    nav ul{gap:16px;}
+    nav ul li:nth-child(4){display:none;}
+    .about-grid{grid-template-columns:1fr;}
+    .research-card{grid-template-columns:1fr;}
+    .skill-grid{grid-template-columns:1fr;}
+    .contact-panel{flex-direction:column; align-items:flex-start;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+
+  .reveal{opacity:0; transform:translateY(14px); transition:opacity .5s ease, transform .5s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">JESSE<span>·</span>TRANSPO ENG</div>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#route">Route</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="sign"><span class="dot"></span>ROUTE TN-NASHVILLE · ACTIVE TRANSPORTATION</div>
+    <h1 class="name">Jesse</h1>
+    <p class="hero-role">Transportation engineer building <strong>safer streets for people outside cars</strong>: bikeways, sidewalks, and crossings, designed to AASHTO, NACTO, and PROWAG standards.</p>
+    <div class="hero-meta">
+      <span class="badge">MS, Transportation Engineering · TTU</span>
+      <span class="badge alt">FE Passed · EI Certified, TN</span>
+      <span class="badge alt">LDA Engineering, Nashville</span>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap about-grid">
+    <div>
+      <div class="eyebrow">About</div>
+      <h2 class="title">From roadway design in Ghana to bikeway design in Tennessee</h2>
+      <p>I started my career in Ghana doing roadway design, intersection analysis, and environmental impact work. Graduate research in the US shifted my focus toward the people a road design leaves out: older adults, pedestrians, and cyclists. That focus now shapes my day job.</p>
+      <p>At LDA Engineering I design active transportation infrastructure. Bikeways, sidewalks, and ADA-compliant crossings, for communities across Tennessee. I bring a traffic engineering background to every project, so the active transportation network I design works with the road network, not against it.</p>
+    </div>
+    <div class="stat-col">
+      <div class="stat"><div class="num">1st</div><div class="lab">Class Honours, KNUST</div></div>
+      <div class="stat"><div class="num">8</div><div class="lab">Trip generation models built</div></div>
+      <div class="stat"><div class="num">3 yrs</div><div class="lab">Roadway design, Ghana</div></div>
+      <div class="stat"><div class="num">2</div><div class="lab">NHTS survey years analyzed</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="route">
+  <div class="wrap">
+    <div class="eyebrow">The Route</div>
+    <h2 class="title">A career built one stop at a time</h2>
+    <p class="lede">Every route has a start point and a set of stops that determine where it ends up. Here is mine.</p>
+
+    <div class="path">
+      <div class="stop reveal">
+        <div class="yr">STOP 1 · GHANA</div>
+        <h3>B.S. Civil Engineering, KNUST</h3>
+        <p>Graduated with First Class Honours, building the structural and roadway design foundation for everything that followed.</p>
+      </div>
+      <div class="stop reveal">
+        <div class="yr">STOP 2 · GHANA</div>
+        <h3>Roadway Design Engineer, SAL Consult Ltd.</h3>
+        <p>Roughly three years of roadway design, intersection analysis, and environmental impact assessment work on real infrastructure projects.</p>
+      </div>
+      <div class="stop reveal">
+        <div class="yr">STOP 3 · TENNESSEE</div>
+        <h3>MS, Transportation Engineering, Tennessee Tech</h3>
+        <p>TDOT-funded research under Dr. Daniel Badoe on the travel behavior of older adults, defended and finalized in 2026.</p>
+      </div>
+      <div class="stop reveal">
+        <div class="yr">STOP 4 · NASHVILLE</div>
+        <h3>Transportation Engineer, LDA Engineering</h3>
+        <p>Designing bikeways and sidewalk networks, applying research on who gets left out of transportation planning to projects on the ground.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="research">
+  <div class="wrap">
+    <div class="eyebrow">Research</div>
+    <h2 class="title">Older adults are the fastest-growing group left out of transportation planning</h2>
+    <p class="lede" style="margin-bottom:32px;">My master's thesis examined how the demographic and travel characteristics of older adults in Tennessee changed between 2009 and 2022, and what that means for future planning.</p>
+
+    <div class="research-card">
+      <div>
+        <h3>Demographic and Travel Characteristics of Older Adults in Tennessee</h3>
+        <p>Built eight trip generation models, linear regression, Poisson, negative binomial, ZIP, ZINB, hurdle NB, ordered logit, and ordered probit, using 2009 and 2022 NHTS Tennessee add-on data.</p>
+        <p>Tested how well models built in one year or region transferred to another, using Transfer Index and Transfer R² methods, then ranked every model by weighted mean absolute error.</p>
+      </div>
+      <ul class="findings">
+        <li>Weighted mean trip rates fell from 2.91 in 2009 to 1.86 in 2022.</li>
+        <li>Auto mobility was the dominant predictor of trip-making in both years.</li>
+        <li>Linear regression ranked first for accuracy in 2009. ZINB ranked first in 2022.</li>
+        <li>Models transferred poorly across time, and spatial transferability declined from 2009 to 2022.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="eyebrow">Capabilities</div>
+    <h2 class="title">What I bring to a project</h2>
+    <div class="skill-grid">
+      <div class="skill-cell">
+        <span class="tag">Design Standards</span>
+        <ul>
+          <li>AASHTO Green Book</li>
+          <li>NACTO Urban Bikeway Guide</li>
+          <li>PROWAG / ADA compliance</li>
+          <li>MUTCD signing and marking</li>
+        </ul>
+      </div>
+      <div class="skill-cell">
+        <span class="tag">Technical Analysis</span>
+        <ul>
+          <li>Synchro / HCS capacity analysis</li>
+          <li>Trip generation modeling (SAS)</li>
+          <li>Intersection and corridor studies</li>
+          <li>Spatial and temporal transferability</li>
+        </ul>
+      </div>
+      <div class="skill-cell">
+        <span class="tag">Practice Areas</span>
+        <ul>
+          <li>Bikeway and sidewalk design</li>
+          <li>Traffic engineering</li>
+          <li>Environmental impact assessment</li>
+          <li>Aging-population travel behavior</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-panel">
+      <h2>Let's build safer streets together.</h2>
+      <div class="contact-links">
+        <a href="akowuahadujesse@gmail.com">akowuahadujesse@gmail.com</a>
+        <a href="https://www.linkedin.com/in/akowuah-adu-jesse/" target="_blank" rel="noopener">linkedin.com/in/akowuah-adu-jesse</a>
+        <a href="https://github.com/aa-jesse" target="_blank" rel="noopener">github.com/aa-jesse</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  NASHVILLE, TN · UPDATED 2026
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.2});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+</body>
+</html>
